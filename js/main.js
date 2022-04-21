@@ -1,12 +1,13 @@
 import knot from './knot.js';
 import SelectFigureBar from './SelectFigureBar.js';
 
-import { Board, ctx } from './Board.js';
-import Figure from './Figure.js';
+import Board from './Board.js';
+import figures from './figures.js';
 
 const emitter = knot();
 
-
+const canvas = document.querySelector('.board__canvas');
+const ctx = canvas.getContext('2d');
 
 
 const FIGURES = [
@@ -32,53 +33,87 @@ fig.onSelect((id, pos)=>{
     console.log(id, pos)
 })
 
-const board = new Board();
 
-const figure_G = new Figure(ctx, 'deepskyblue', 3, 0, [
-      [2, 2, 2],
-      [2, 0, 0],
-      [0, 0, 0],
-    ]);
+const board = new Board(canvas, ctx, figures);
 
-const figure_A = new Figure(ctx, 'yellow', 0, 1, [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 1, 0, 0],
-      [1, 1, 1, 1],
-    ]);
-const figure_K = new Figure(ctx, 'lightgreen', 0, 0, [
-      [0, 1, 1],
-      [0, 0, 1],
-      [0, 1, 1]
-    ]);
-const figure_H = new Figure(ctx, 'cyan', 8, 2, [
-      [0, 0, 1],
-      [0, 0, 1],
-      [1, 1, 1],
-    ]);
-const figure_I = new Figure(ctx, 'skyblue', 9, 0, [
-      [1, 1],
-      [0, 1],
-    ]);
 
-const figure_F = new Figure(ctx, 'magenta', 3, 1, [
-      [0, 1, 1],
-      [1, 1, 0],
-      [1, 0, 0],
-    ]);
-const figure_B = new Figure(ctx, 'gold', 6, 2, [
-      [0, 0, 1],
-      [1, 1, 1],
-      [0, 1, 0],
-    ]);
+board.on('click', event=>{
+  board.grid.forEach( (row, y) => {
+    row.forEach( (cell, x) => {
+      const collision =  board.collision(cell, event);
+      if(board.grid[y][x].select){
+
+        board.grid[y][x].select = false;
+        board.grid[y][x].value = 0
+        board.grid[y][x].color =  board.color;
+      }
+      if(board.grid[y][x].value>0) return;
+      if(collision){
+            board.grid[y][x].select = true;
+            board.grid[y][x].value = 1
+            board.grid[y][x].color = 'darkgray';
+      }
+
+      
+    })
+  })
+
+  board.render()
+
+  console.log(board.grid)
+  console.log('EVENT')
+})
+
+const D = 2000
+setTimeout(()=>{
+  board.figures[3].flip('H')
+  board.reset();
+
+}, D)
+
+setTimeout( ()=>{
+      board.figures[3].flip('H')
+      board.reset();
+      
+} ,D*2)
+setTimeout( ()=>{
+      board.figures[3].flip('V')
+      board.reset();
+      
+} ,D*3)
+setTimeout( ()=>{
+      board.figures[3].flip('V')
+      board.reset();
+      
+} ,D*4)
+
+setTimeout( ()=>{
+      board.figures[0].rotate()
+      board.reset();
+      
+} ,D*5)
+setTimeout( ()=>{
+      board.figures[1].y = 1;
+      board.reset();
+      
+} ,D*6)
+
+/*
+function animate() {
+  board.piece.draw();
+  requestAnimationFrame(this.animate.bind(this));
+}
+*/
+/**
+ * play
+ */
+
 function play (){
   board.reset();
 
-  const FIG = [ figure_A, figure_G, figure_K, figure_H, figure_I, figure_F, figure_B , ]
-  FIG.forEach(f=>f.render())
-  setTimeout(()=>{
-    console.table(board.grid)
-  },300)
+
+  //FIG.forEach(f=>f.render())
+
 }
 
 play ()

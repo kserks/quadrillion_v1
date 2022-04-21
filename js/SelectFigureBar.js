@@ -7,6 +7,8 @@ class SelectFigureBar {
     this.target = null;
     this.angle = 0;
     this.view = {
+      flipV: document.querySelector('.controls__item--flip-v'),
+      flipH: document.querySelector('.controls__item--flip-h'),
       rotate: document.querySelector('.controls__item--rotate'),
       container: document.querySelector('.figures__container')
     }
@@ -29,12 +31,45 @@ class SelectFigureBar {
      */
     this.view.rotate.addEventListener('click', ()=>{
       if(!this.target) return;
-      this.target.style.transform = `rotate(${this.angle-=90}deg)`;
+
+      this.target.style.transform = `rotate(${this.angle+=90}deg)`;
       this.position +=1;
       if(this.position===4) this.position = 0;
       this.onSelectItem(this.id, this.position);
     });
-
+    /**
+     * Отразить по горизонтали
+     */
+    let flipH = false;
+    this.view.flipH.addEventListener('click', ()=>{
+      if(!this.target) return;
+      if(flipH){
+        flipH = false;
+        this.target.style.transform = `scale(1, 1)`;
+      }
+      else{
+        flipH = true;
+        this.target.style.transform = `scale(-1, 1)`;
+      }
+      this.onSelectItem(this.id, this.position);
+    });
+    /**
+     * Отразить по вертикали
+     */
+    let flipV = false;
+    this.view.flipV.addEventListener('click', ()=>{
+      if(!this.target) return;
+      if(flipV){
+        flipV = false;
+        this.target.style.transform = `scale(1, 1)`;
+      }
+      else{
+        flipV = true;
+        this.target.style.transform = `scale(1, -1)`;
+      }
+      this.onSelectItem(this.id, this.position);
+    });
+    
     this.render();
   }
   render (){

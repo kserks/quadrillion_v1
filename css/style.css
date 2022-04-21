@@ -24,11 +24,16 @@ body{
   display: flex;
 }
 .board{
-  border: 1px solid gray;
-  padding: 10px;
+  border: 1px solid silver;
+
+}
+.board__canvas{
+  height: 100%;
 }
 
-
+/**
+ * Controls
+ */
 .controls{
   display: flex;
   flex-direction: column;
@@ -49,6 +54,14 @@ body{
 .controls__item:hover{
   filter: brightness(150%);
 }
+.controls__item--rotate{
+  transform: scale(-1, 1);
+}
+
+/**
+ * Figures
+ */
+
 .figures{
   display: flex;
   border: 1px solid gray;
