@@ -1,7 +1,7 @@
 
 class Board {
   
-  constructor (canvas, ctx, figures){
+  constructor (canvas, ctx, figures=[]){
     this.canvas = canvas;
     this.ctx = ctx;
     this.figures = figures;
@@ -29,14 +29,16 @@ class Board {
         this.events.click(eventData);
     })
   }
-
+  setFigure (value){
+    this.figures.push(value);
+  }
   on(event, handler){
     this.events[event] = handler;
   }
   //undo (){},
   reset (){
     this.grid = this.getEmptyGrid();
-    this.mergeFiguresToGrid()
+
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.render();
   }
@@ -68,7 +70,8 @@ class Board {
                         y: stepY,
                         value: 0,
                         color: this.color,
-                        select: false
+                        select: false,
+                        id: null
                 }
                 // Смещение по X
                 stepX += this.BLOCK_SIZE+step;
@@ -83,6 +86,7 @@ class Board {
 
   }
   render (){
+    this.grid = this.mergeFiguresToGrid();
     //this.grid[3][2].color = 'red'
     //this.ctx.strokeStyle = "silver";
 
@@ -99,7 +103,7 @@ class Board {
 
   }
   /**
-   * Добавление пазлов в массив отрисовки
+   * Добавление фигур в массив отрисовки
    */
   mergeFiguresToGrid (){
     this.figures.forEach(f=>{
@@ -108,13 +112,43 @@ class Board {
                 if(value>0){
                   this.grid[y+f.y][x+f.x].value = value;
                   this.grid[y+f.y][x+f.x].color = f.color;
+                  this.grid[y+f.y][x+f.x].id = f.id;
                 }
             })
         })
-    })    
+    });
+    return this.grid;
+  }
+  /**
+   * Возвращает массив с координатами ячеек,
+   * которые занимает фигура с заданным ID
+   */
+  getFigureById (id){
+    const coords = []
+    this.grid.forEach( (row, y) => {
+        row.forEach( (cell, x) => {
+            if(cell.id===id){
+              coords.push({ x, y });
+            }
+        })
+    });
+    return coords;
+
+  }
+  removeFigure (id){
+    const coords = this.getFigureById(id);
+    coords.forEach((pos)=>{
+        this.grid[pos.y][pos.x].color = this.color
+        this.grid[pos.y][pos.x].select = false
+        this.grid[pos.y][pos.x].value = 0
+
+        
+        console.log(this.grid[pos.y][pos.x])
+    })
   }
   /**
    * Проверка столкновения прямоугольников
+   * Используется для проверки стокновения курсора с ячейкой.
    */
   collision(obj1, obj2){
     let XColl=false;
@@ -123,6 +157,9 @@ class Board {
     if ((obj1.y + obj1.height >= obj2.y) && (obj1.y <= obj2.y + obj2.height)) YColl = true;
     if (XColl&YColl){return true;}
     return false;
+  }
+  getCurrentCell (x, y){
+    return this.grid[y][x];
   }
 
 }

@@ -1,10 +1,9 @@
-import knot from './knot.js';
+
 import SelectFigureBar from './SelectFigureBar.js';
-
+import Figure from './Figure.js';
 import Board from './Board.js';
-import figures from './figures.js';
+//import figures from './figures.js';
 
-const emitter = knot();
 
 const canvas = document.querySelector('.board__canvas');
 const ctx = canvas.getContext('2d');
@@ -32,71 +31,56 @@ const fig = new SelectFigureBar(FIGURES);
 fig.onSelect((id, pos)=>{
     console.log(id, pos)
 })
+const _A = new Figure('A', 0, 0, null, 'yellow');
+//_A.flip('V')
+//_A.rotate()
+const _figures = [  ]
 
+const board = new Board(canvas, ctx, _figures);
 
-const board = new Board(canvas, ctx, figures);
-
-
+ board.setFigure(_A);
 board.on('click', event=>{
   board.grid.forEach( (row, y) => {
     row.forEach( (cell, x) => {
       const collision =  board.collision(cell, event);
       if(board.grid[y][x].select){
-
         board.grid[y][x].select = false;
         board.grid[y][x].value = 0
         board.grid[y][x].color =  board.color;
       }
-      if(board.grid[y][x].value>0) return;
+      if(collision&&board.grid[y][x].value>0){
+
+      };
       if(collision){
-            board.grid[y][x].select = true;
-            board.grid[y][x].value = 1
-            board.grid[y][x].color = 'darkgray';
+            //board.grid[y][x].select = true;
+            //board.grid[y][x].value = 1
+            //board.grid[y][x].color = 'darkgray';
+            /* click*/
+            //_A.x = x
+           // _A.y = y
+            //_A.flip('V')
+            //_A.rotate()
+          
+           const cell = board.getCurrentCell(x, y)
+          //cell.select = true
+          //cell.value = 1
+          //cell.color = 'magenta';
+         // const coords = board.getFigureById('A')
+          board.removeFigure('A');
+         
       }
 
       
     })
   })
-
+  //board.reset();
   board.render()
 
-  console.log(board.grid)
-  console.log('EVENT')
+
+
 })
 
-const D = 2000
-setTimeout(()=>{
-  board.figures[3].flip('H')
-  board.reset();
 
-}, D)
-
-setTimeout( ()=>{
-      board.figures[3].flip('H')
-      board.reset();
-      
-} ,D*2)
-setTimeout( ()=>{
-      board.figures[3].flip('V')
-      board.reset();
-      
-} ,D*3)
-setTimeout( ()=>{
-      board.figures[3].flip('V')
-      board.reset();
-      
-} ,D*4)
-
-setTimeout( ()=>{
-      board.figures[0].rotate()
-      board.reset();
-      
-} ,D*5)
-setTimeout( ()=>{
-      board.figures[1].y = 1;
-      board.reset();
-      
-} ,D*6)
 
 /*
 function animate() {
