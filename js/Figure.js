@@ -1,22 +1,37 @@
-const SHAPES = {
-  'A': [
-      [0, 0, 0, 0],
+const TYPES = {
+  'A': {
+    pointerX: 0, /**/
+    pointerY: 2,
+    pointer: {
+      default: [0, 2],
+      flipV: [0, 1],
+      flipH: [4, 2],
+      pos_1: [0, 2], // rotate
+    },
+    color: 'yellow',
+    shape: [
       [0, 0, 0, 0],
       [0, 0, 1, 0],
       [1, 1, 1, 1],
-  ],
-  /**
-  'A': [
       [0, 0, 0, 0],
-      [0, 0, 1, 0],
-      [1, 1, 1, 1],
-      [0, 0, 0, 0],
-  ],   */
-  'B': [
+    ]
+  },
+  'B': {
+    pointerX: 0, /**/
+    pointerY: 2,
+    pointer: {
+      default: [0, 2],
+      flipV: [0, 1],
+      flipH: [4, 2],
+      pos_1: [0, 2], // rotate
+    },
+    color: 'gold',
+    shape: [
       [0, 0, 1],
       [1, 1, 1],
       [0, 1, 0],
-  ],
+    ]
+  },
   'C': [
       [1, 1, 1, 1],
       [0, 0, 0, 1],
@@ -61,15 +76,29 @@ const SHAPES = {
  * место определенным углом от места клика.
  */
 class Figure {
-  constructor (id, x, y, pointerY=0, color){
+  #x = 0;
+  #y = 0;
+  constructor (id, x, y){
     this.id = id
-    this.color = color;
-    this.pointerY = pointerY;
+    this.color = TYPES[this.id].color;
+    this.pointerX = TYPES[this.id].pointerX;
+    this.pointerY = TYPES[this.id].pointerY;
     this.x = x;
-    this.y = y + this.pointerY;
-    this.shape = SHAPES[this.id];
+    this.y = y;
+    this.shape = TYPES[this.id].shape;
   }
-
+  set x (val){
+      this.#x = val;
+  }
+  get x (){
+    return this.#x - this.pointerX;
+  }
+  set y (val){
+      this.#y = val;
+  }
+  get y (){
+    return this.#y - this.pointerY;
+  }
   flip (direction){
     if(direction==='H'){
           this.shape.forEach( (row, y) => row.reverse() )
@@ -100,6 +129,7 @@ const figure_G = new Figure(ctx, 'deepskyblue', 3, 0, [
     ]);
 figure_G.flip('H');
 figure_G.flip('V');
+figure_G.rotate();
 
 */
 

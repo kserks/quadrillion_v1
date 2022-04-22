@@ -31,14 +31,15 @@ const fig = new SelectFigureBar(FIGURES);
 fig.onSelect((id, pos)=>{
     console.log(id, pos)
 })
-const _A = new Figure('A', 0, 0, null, 'yellow');
+
 //_A.flip('V')
 //_A.rotate()
 const _figures = [  ]
 
 const board = new Board(canvas, ctx, _figures);
-
- board.setFigure(_A);
+window.board = board
+const _A =  new Figure('A', 0, 0);
+const _B =  new Figure('B', 3, 2);
 board.on('click', event=>{
   board.grid.forEach( (row, y) => {
     row.forEach( (cell, x) => {
@@ -49,24 +50,31 @@ board.on('click', event=>{
         board.grid[y][x].color =  board.color;
       }
       if(collision&&board.grid[y][x].value>0){
-
+           board.removeFigure('A');
       };
       if(collision){
             //board.grid[y][x].select = true;
             //board.grid[y][x].value = 1
             //board.grid[y][x].color = 'darkgray';
             /* click*/
-            //_A.x = x
-           // _A.y = y
-            //_A.flip('V')
+           
+            _A.x = x
+            _A.y = y
+             //_A.flip('V')
             //_A.rotate()
-          
-           const cell = board.getCurrentCell(x, y)
+           board.setFigure(_A);
+           
+           board.setFigure(_B);
+           setTimeout( ()=>{
+              board.removeFigure('A')
+              console.log(board.grid)
+           },1000)
+           //const cell = board.getCurrentCell(x, y)
           //cell.select = true
           //cell.value = 1
           //cell.color = 'magenta';
          // const coords = board.getFigureById('A')
-          board.removeFigure('A');
+  
          
       }
 

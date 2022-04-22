@@ -110,9 +110,15 @@ class Board {
         f.shape.forEach((row, y)=>{
             row.forEach((value, x)=>{
                 if(value>0){
-                  this.grid[y+f.y][x+f.x].value = value;
-                  this.grid[y+f.y][x+f.x].color = f.color;
-                  this.grid[y+f.y][x+f.x].id = f.id;
+                    try{
+                      this.grid[y+f.y][x+f.x].value = value;
+                      this.grid[y+f.y][x+f.x].color = f.color;
+                      this.grid[y+f.y][x+f.x].id = f.id;
+                    }
+                    catch(err){
+                      // removeFigure
+                      console.log('Фигура не вписывается в пределы сетки')
+                    }
                 }
             })
         })
@@ -138,13 +144,21 @@ class Board {
   removeFigure (id){
     const coords = this.getFigureById(id);
     coords.forEach((pos)=>{
-        this.grid[pos.y][pos.x].color = this.color
-        this.grid[pos.y][pos.x].select = false
-        this.grid[pos.y][pos.x].value = 0
+        const cell = this.getCurrentCell(pos.x, pos.y);
+        cell.color = this.color;
+        cell.select = false;
+        cell.value = 0;
+        cell.id = null;
+    });
 
-        
-        console.log(this.grid[pos.y][pos.x])
-    })
+    for (let f = 0; f<this.figures.length;f++){
+        if(this.figures[f].id===id){
+          console.log(this.figures[f])
+          this.figures.splice(f, 1);
+          break;
+        }
+    }
+    this.render();
   }
   /**
    * Проверка столкновения прямоугольников
