@@ -1,74 +1,5 @@
-const TYPES = {
-  'A': {
-    pointerX: 0, /**/
-    pointerY: 2,
-    pointer: {
-      default: [0, 2],
-      flipV: [0, 1],
-      flipH: [4, 2],
-      pos_1: [0, 2], // rotate
-    },
-    color: 'yellow',
-    shape: [
-      [0, 0, 0, 0],
-      [0, 0, 1, 0],
-      [1, 1, 1, 1],
-      [0, 0, 0, 0],
-    ]
-  },
-  'B': {
-    pointerX: 0, /**/
-    pointerY: 2,
-    pointer: {
-      default: [0, 2],
-      flipV: [0, 1],
-      flipH: [4, 2],
-      pos_1: [0, 2], // rotate
-    },
-    color: 'gold',
-    shape: [
-      [0, 0, 1],
-      [1, 1, 1],
-      [0, 1, 0],
-    ]
-  },
-  'C': [
-      [1, 1, 1, 1],
-      [0, 0, 0, 1],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-  ],
-  'D':  [
-      [0, 1, 0],
-      [1, 1, 0],
-      [1, 0, 0],
-  ],
-  'F':  [
-      [0, 1, 1],
-      [1, 1, 0],
-      [1, 0, 0],
-  ],
-  'G': [
-      [2, 2, 2],
-      [2, 0, 0],
-      [0, 0, 0],
-  ],
-  'H': [
-      [0, 0, 1],
-      [0, 0, 1],
-      [1, 1, 1],
-  ],
-  'I': [
-      [1, 1],
-      [0, 1],
-  ],
-  'K': [
-      [0, 1, 1],
-      [0, 0, 1],
-      [0, 1, 1]
-  ],
+import TYPES from './types.js'
 
-}
 /**
  * pointerY - точка построения. Смещение. 
  * В обычном режиме фигура строится с верхнего левого угла
@@ -78,6 +9,8 @@ const TYPES = {
 class Figure {
   #x = 0;
   #y = 0;
+  #pointerX = 0;
+  #pointerY = 0;
   constructor (id, x, y){
     this.id = id
     this.color = TYPES[this.id].color;
@@ -99,12 +32,28 @@ class Figure {
   get y (){
     return this.#y - this.pointerY;
   }
+  get pointerX (){
+    return this.#pointerX;
+  }
+  set pointerX (val){
+    this.#pointerX = val;
+  }
+  get pointerY (){
+    return this.#pointerY;
+  }
+  set pointerY (val){
+    this.#pointerY = val;
+  }
   flip (direction){
     if(direction==='H'){
-          this.shape.forEach( (row, y) => row.reverse() )
+          this.shape.forEach( (row, y) => row.reverse() );
+          //const [x, y] = TYPES[this.id].poiner.flipH;
+          //this.pointerX = x;
+          //this.pointerY = y;
     }
     if(direction==='V'){
           this.shape.reverse();
+
 
     }
   }

@@ -8,12 +8,13 @@ class Board {
     this.COLS = 11;
     this.ROWS = 5;
     this.BLOCK_SIZE = 80;
-    this.width = this.COLS * this.BLOCK_SIZE + 11;
+    this.width = this.COLS * this.BLOCK_SIZE + 11; // 11 - это допуск учитывающий отступы между ячеек
     this.height = this.ROWS * this.BLOCK_SIZE + 5;
     this.color = 'gray';
     this.events = {
       click: ()=>{}
     };
+    //this.offTheBoardFlag = false;
     this.init()
   }
   init (){
@@ -31,15 +32,18 @@ class Board {
   }
   setFigure (value){
     this.figures.push(value);
+    this.render();
+   // this.update();
   }
   on(event, handler){
     this.events[event] = handler;
   }
-  //undo (){},
   reset (){
+    this.figures = [];
+    this.update();
+  }
+  update (){
     this.grid = this.getEmptyGrid();
-
-    this.ctx.clearRect(0, 0, this.width, this.height);
     this.render();
   }
   /**
@@ -85,7 +89,11 @@ class Board {
     return grid;
 
   }
+  /**
+   * Перерисовать все фигуры которые находятся в массиве grid
+   */
   render (){
+    this.ctx.clearRect(0, 0, this.width, this.height);
     this.grid = this.mergeFiguresToGrid();
     //this.grid[3][2].color = 'red'
     //this.ctx.strokeStyle = "silver";
@@ -99,25 +107,27 @@ class Board {
     });
 
   }
-  valid (){
-
-  }
   /**
    * Добавление фигур в массив отрисовки
    */
+  
   mergeFiguresToGrid (){
     this.figures.forEach(f=>{
         f.shape.forEach((row, y)=>{
             row.forEach((value, x)=>{
                 if(value>0){
                     try{
+                      //this.offTheBoardFlag = false;
                       this.grid[y+f.y][x+f.x].value = value;
                       this.grid[y+f.y][x+f.x].color = f.color;
                       this.grid[y+f.y][x+f.x].id = f.id;
                     }
                     catch(err){
-                      // removeFigure
-                      console.log('Фигура не вписывается в пределы сетки')
+                      if(!this.offTheBoardFlag){
+                          this.removeFigure(f.id);
+                          console.log(f.id, 'Фигура не вписывается в пределы сетки');
+                          //this.offTheBoardFlag = true;
+                      }
                     }
                 }
             })
@@ -130,7 +140,7 @@ class Board {
    * которые занимает фигура с заданным ID
    */
   getFigureById (id){
-    const coords = []
+    const coords = [];
     this.grid.forEach( (row, y) => {
         row.forEach( (cell, x) => {
             if(cell.id===id){
@@ -138,27 +148,36 @@ class Board {
             }
         })
     });
+
     return coords;
 
   }
   removeFigure (id){
+    /**
+     * Получаю список координат ячеек заполненных фигурой
+     */
     const coords = this.getFigureById(id);
-    coords.forEach((pos)=>{
+    /**
+     * Пробегаюсь по полученным ячейкам и сбрасываю их 
+     * на значение по умолчанию
+     */
+    coords.forEach( pos=>{
         const cell = this.getCurrentCell(pos.x, pos.y);
         cell.color = this.color;
         cell.select = false;
         cell.value = 0;
         cell.id = null;
     });
-
+    /**
+     * Удаляю фигуру из общего массива
+     */
     for (let f = 0; f<this.figures.length;f++){
         if(this.figures[f].id===id){
-          console.log(this.figures[f])
           this.figures.splice(f, 1);
           break;
         }
     }
-    this.render();
+    this.update();
   }
   /**
    * Проверка столкновения прямоугольников
@@ -175,9 +194,43 @@ class Board {
   getCurrentCell (x, y){
     return this.grid[y][x];
   }
+  /*
+  removeDuplicateFigure (id){
+    let index;
+    this.figures.map( (item, pos)=>{
+          if(item.id===id){
+            index = pos
+          }
+    })
 
+    if(!index) return;
+    this.figures.splice(index, 1);
+    index = false;
+  }
+  */
+  isFiguresCollide (F){
+ 
+  return F.shape.every((row, dy) => {
+    return row.every((value, dx) => {
+      let x = F.x + dx;
+      let y = F.y + dy;
+      return value === 0 ||this.notOccupied(x, y)
+    });
+  });
+
+
+  }
+  notOccupied(x, y) {
+    return this.grid[y] && this.grid[y][x].value === 0;
+  }
 }
 
+/**
+ * Usage
+ board.getFigureById ('A')
+
+ */
 
 
 export default Board;
+
