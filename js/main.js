@@ -27,23 +27,57 @@ const FIGURES = [
 const fig = new SelectFigureBar(FIGURES);
 
 let ID = null
+let rotate = 0;
+let flipH = false;
+let flipV = false;
+fig.onSelect((id, r, fH, fV)=>{
 
-fig.onSelect((id, pos)=>{
     ID = id
+    rotate = r;
+    flipH = fH;
+    flipV = fV;
 })
 
 
-maps['Новичёк'][0].forEach(item=>{
-  console.log(item)
-})
 
 
 const board = new Board(canvas, ctx);
+board.update();
 window.board = board
-//const _A =  new Figure('A', 0, 0);
-//const _B =  new Figure('B', 3, 2);
- //     board.setFigure(_B);
+
+
+function setMap (){
+
+  maps['Новичёк'][0].forEach(item=>{
+    const { id , x, y, rotate, flipH, flipV } = item;
+
+    const F = new Figure(id, x, y)
+    for(let i = 0; i<rotate;i++){
+        F.rotate();
+    }
+    if(flipH){
+      F.flip('H');
+    }
+    if(flipV){
+      F.flip('V');
+    }
+    if(!board.isFiguresCollide(F)){
+       // alert('Не все ячейки свободны')
+       // return;
+    }
+    board.setFigure(F);
+    fig.disable(id)
+  })
+  board.render();
+
+}
+
+setMap();
+
+
+
 board.on('click', event=>{
+
   board.grid.forEach( (row, y) => {
     row.forEach( (cell, x) => {
       const collision =  board.collision(cell, event);
@@ -72,10 +106,25 @@ board.on('click', event=>{
               console.log('Не все ячейки свободны')
               return;
             }
-             //F.flip('H')
-            //_A.rotate()
-           board.setFigure(F);
-           ID = null;
+            fig.disable(ID)
+            /*
+             * Трансформации
+             */
+            for(let i = 0; i<rotate;i++){
+                F.rotate();
+            }
+            if(flipH){
+              F.flip('H');
+            }
+            if(flipV){
+              F.flip('V');
+            }
+            rotate = 0;
+            flipH = false;
+            flipV = false;
+            ID = null;
+            board.setFigure(F);
+
       }
 
       
@@ -89,7 +138,7 @@ board.on('click', event=>{
 })
 
 
-
+//alert('Может отказаться от canvas? в пользу DOM')
 
 /*
 function animate() {

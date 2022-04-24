@@ -210,14 +210,13 @@ class Board {
   */
   isFiguresCollide (F){
  
-  return F.shape.every((row, dy) => {
-    return row.every((value, dx) => {
-      let x = F.x + dx;
-      let y = F.y + dy;
-      return value === 0 ||this.notOccupied(x, y)
+    return F.shape.every((row, dy) => {
+      return row.every((value, dx) => {
+        let x = F.x + dx;
+        let y = F.y + dy;
+        return value === 0 ||this.notOccupied(x, y)
+      });
     });
-  });
-
 
   }
   notOccupied(x, y) {

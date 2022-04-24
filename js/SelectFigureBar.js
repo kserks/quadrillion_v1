@@ -3,7 +3,9 @@ class SelectFigureBar {
   constructor (figures){
     this.figures = figures;
     this.id = null;
-    this.position = 0; //123
+    this.rotate = 0; //123
+    this.flipH = false;
+    this.flipV = false;
     this.target = null;
     this.angle = 0;
     this.view = {
@@ -24,7 +26,7 @@ class SelectFigureBar {
         this.angle = 0;
         this.id = e.target.getAttribute('data-id');
         this.target = e.target;
-        this.onSelectItem(this.id, this.position)
+        this.onSelectItem(this.id, this.rotate)
     });
     /**
      * Крутим фигуры вокруг своей оси
@@ -33,44 +35,46 @@ class SelectFigureBar {
       if(!this.target) return;
 
       this.target.style.transform = `rotate(${this.angle+=90}deg)`;
-      this.position +=1;
-      if(this.position===4) this.position = 0;
-      this.onSelectItem(this.id, this.position);
+      this.rotate +=1;
+      if(this.rotate===4) this.rotate = 0;
+      this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV);
     });
     /**
      * Отразить по горизонтали
      */
-    let flipH = false;
+
     this.view.flipH.addEventListener('click', ()=>{
       if(!this.target) return;
-      if(flipH){
-        flipH = false;
+      if(this.flipH){
+        this.flipH = false;
         this.target.style.transform = `scale(1, 1)`;
       }
       else{
-        flipH = true;
+        this.flipH = true;
         this.target.style.transform = `scale(-1, 1)`;
       }
-      this.onSelectItem(this.id, this.position);
+      this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV );
     });
     /**
      * Отразить по вертикали
      */
-    let flipV = false;
+
     this.view.flipV.addEventListener('click', ()=>{
       if(!this.target) return;
-      if(flipV){
-        flipV = false;
+      if(this.flipV){
+        this.flipV = false;
         this.target.style.transform = `scale(1, 1)`;
       }
       else{
-        flipV = true;
+        this.flipV = true;
         this.target.style.transform = `scale(1, -1)`;
       }
-      this.onSelectItem(this.id, this.position);
+      
+      this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV);
     });
     
     this.render();
+
   }
   render (){
     /**
@@ -83,7 +87,13 @@ class SelectFigureBar {
   }
   onSelect (onSelectItem){
     this.onSelectItem = onSelectItem;
+
   }
+  disable (id){
+    const f = document.querySelector(`.figures__item[data-id="${id}"]`);
+    f.style.opacity = 0.1;
+    f.style.pointerEvents = 'none'
+  } 
 }
 
 
