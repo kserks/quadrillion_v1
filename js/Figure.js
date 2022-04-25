@@ -20,6 +20,7 @@ class Figure {
     this.x = x;
     this.y = y;
     this.shape = TYPES[this.id].shape;
+    this.objTransform  = { V: false, H: false }
   }
   set x (val){
       this.#x = val;
@@ -33,48 +34,48 @@ class Figure {
   get y (){
     return this.#y - this.pointerY;
   }
-  get transform (){
-    let tr = 0;
-    if(this.direction==='H'){
-      tr = 1;
-    }
-    if(this.direction==='V'){
-      tr = 2;
-    }
-    return tr;
-  }
-  get pointerX (){
-    return TYPES[this.id].pointer1[this.rotatePos][this.transform].x
-  }
-  /*
-  set pointerX (val){
-    this.#pointerX = val;
-  }
-  */
-  get pointerY (){
-    return TYPES[this.id].pointer1[this.rotatePos][this.transform].y//this.#pointerY;
-  }
-  /*
-  set pointerY (val){
-    this.#pointerY = val;
-  }
-  */
-  get rotatePos (){
 
+  get transformMode (){
+    let mode = 0;
+    if(this.objTransform.H&&!this.objTransform.V){
+      mode = 1;
+    }
+    if(this.objTransform.V&&!this.objTransform.H){
+      mode = 2;
+    }
+    if(this.objTransform.H&&this.objTransform.V){
+      mode = 3;
+    }
+    return mode;
+  }
+  /**
+   * При вращении и отражении фигуры, меняется позиция курсора.
+   * Точки откуда берет начало фигура
+   */
+  get pointerX (){
+    return TYPES[this.id].pointer[this.rotatePos][this.transformMode].x;
+  }
+
+  get pointerY (){
+    return TYPES[this.id].pointer[this.rotatePos][this.transformMode].y;
+  }
+  /**
+   * Сколько раз крутанули фигуру
+   */
+  get rotatePos (){
     return this.#n;
   }
   set rotatePos (n){
     this.#n = n;
   }
   flip (direction){
-    this.direction = direction
     if(direction==='H'){
-          this.shape.forEach( (row, y) => row.reverse() );
+        this.objTransform.H = !this.objTransform.H;
+        this.shape =  this.shape.map( (row, y) => row.reverse() );
     }
     if(direction==='V'){
-          this.shape.reverse();
-
-
+        this.objTransform.V = !this.objTransform.V;
+        this.shape.reverse();
     }
   }
 
@@ -105,7 +106,7 @@ const figure_G = new Figure(ctx, 'deepskyblue', 3, 0, [
     ]);
 figure_G.flip('H');
 figure_G.flip('V');
-figure_G.rotate();
+figure_G.rotate(3); // max 3
 
 */
 

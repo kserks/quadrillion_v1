@@ -72,7 +72,7 @@ function setMap (){
 
 //setMap();
 
-
+console.log('DOM render | выделение фигуры')
 
 board.on('click', event=>{
 
