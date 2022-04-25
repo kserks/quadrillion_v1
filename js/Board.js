@@ -209,18 +209,24 @@ class Board {
   }
   */
   isFiguresCollide (F){
- 
+  
     return F.shape.every((row, dy) => {
       return row.every((value, dx) => {
         let x = F.x + dx;
         let y = F.y + dy;
+        //console.log(dx, dy)
         return value === 0 ||this.notOccupied(x, y)
       });
     });
 
   }
-  notOccupied(x, y) {
+  notOccupied (x, y) {
+    return 0;
+    //console.log(x, y)
     return this.grid[y] && this.grid[y][x].value === 0;
+  }
+  isExistFigure (id){
+    return this.figures.find(f=>f.id===ID);
   }
 }
 

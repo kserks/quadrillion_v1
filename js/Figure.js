@@ -11,11 +11,12 @@ class Figure {
   #y = 0;
   #pointerX = 0;
   #pointerY = 0;
+  #n = 0;
   constructor (id, x, y){
     this.id = id
     this.color = TYPES[this.id].color;
-    this.pointerX = TYPES[this.id].pointerX;
-    this.pointerY = TYPES[this.id].pointerY;
+    //this.pointerX = TYPES[this.id].pointer.rotate[this.rotatePos].x;
+    //this.pointerY = TYPES[this.id].pointer.rotate[this.rotatePos].y;
     this.x = x;
     this.y = y;
     this.shape = TYPES[this.id].shape;
@@ -32,24 +33,43 @@ class Figure {
   get y (){
     return this.#y - this.pointerY;
   }
-  get pointerX (){
-    return this.#pointerX;
+  get transform (){
+    let tr = 0;
+    if(this.direction==='H'){
+      tr = 1;
+    }
+    if(this.direction==='V'){
+      tr = 2;
+    }
+    return tr;
   }
+  get pointerX (){
+    return TYPES[this.id].pointer1[this.rotatePos][this.transform].x
+  }
+  /*
   set pointerX (val){
     this.#pointerX = val;
   }
+  */
   get pointerY (){
-    return this.#pointerY;
+    return TYPES[this.id].pointer1[this.rotatePos][this.transform].y//this.#pointerY;
   }
+  /*
   set pointerY (val){
     this.#pointerY = val;
   }
+  */
+  get rotatePos (){
+
+    return this.#n;
+  }
+  set rotatePos (n){
+    this.#n = n;
+  }
   flip (direction){
+    this.direction = direction
     if(direction==='H'){
           this.shape.forEach( (row, y) => row.reverse() );
-          //const [x, y] = TYPES[this.id].poiner.flipH;
-          //this.pointerX = x;
-          //this.pointerY = y;
     }
     if(direction==='V'){
           this.shape.reverse();
@@ -57,14 +77,21 @@ class Figure {
 
     }
   }
-  rotate (){
-    for (let y = 0; y < this.shape.length; ++y) {
-      for (let x = 0; x < y; ++x) {
-        [this.shape[x][y], this.shape[y][x]] =  [this.shape[y][x], this.shape[x][y]];
 
-      }
+  rotate (n=0){
+    this.rotatePos = n;
+    // скольлко раз крутануть
+    for(let i = 0; i<n; i++){
+          // линейно меняем значения в матрице
+          for (let y = 0; y < this.shape.length; ++y) {
+            for (let x = 0; x < y; ++x) {
+              [this.shape[x][y], this.shape[y][x]] =  [this.shape[y][x], this.shape[x][y]];
+
+            }
+          }
+          this.shape.forEach(row => row.reverse());
     }
-    this.shape.forEach(row => row.reverse());
+
   }
 
 }

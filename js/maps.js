@@ -1,8 +1,8 @@
 export default {
   'Новичёк': [
       [
-        { id: 'E', x: 0, y: 0, rotate: 2, flipH: false, flipV: false },
-        { id: 'A', x: 1, y: 1, rotate: 0, flipH: false, flipV: true },
+        { id: 'E', x: -1, y: 0, rotate: 2, flipH: false, flipV: false },
+        { id: 'A', x: 1, y: 2, rotate: 0, flipH: false, flipV: true },
         { id: 'H', x: 0, y: 4, rotate: 1, flipH: false, flipV: false },
         { id: 'I', x: 3, y: 3, rotate: 2, flipH: false, flipV: false },
         { id: 'K', x: 2, y: 1, rotate: 3, flipH: false, flipV: false },

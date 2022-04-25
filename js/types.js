@@ -1,23 +1,34 @@
 const TYPES = {
   'A': {
-    pointerX: 0, /**/
-    pointerY: 2,
+    //pointerX: 0, 
+    //pointerY: 3,
     pointer: {
-      default: [0, 2],
-      flipV: [0, 1],
-      flipH: [4, 2],
-      pos_1: [0, 2], // rotate
+      rotate: {
+        0: { x: 0, y: 3 },
+        1: { x: 0, y: 0 },
+        2: { x: 3, y: 0 },
+        3: { x: 3, y: 3 },
+      }
     },
+    pointer1: {
+      // default                 flipH         flipV          flipHV
+      0: [ { x: 0, y: 3 }, { x: 3, y: 3 }, { x: 0, y: 0 }, { x: 3, y: 2 } ],
+      1: [ { x: 0, y: 0 }, { x: 3, y: 0 }, { x: 0, y: 3 }, { x: 1, y: 3 } ],
+      2: [ { x: 3, y: 0 }, { x: 0, y: 0 }, { x: 3, y: 3 }, { x: 0, y: 1 } ],
+      3: [ { x: 3, y: 3 }, { x: 0, y: 3 }, { x: 3, y: 0 }, { x: 0, y: 0 } ]
+    },
+
     color: 'yellow',
     shape: [
       [0, 0, 0, 0],
+      [0, 0, 0, 0],
       [0, 0, 1, 0],
       [1, 1, 1, 1],
-      [0, 0, 0, 0],
     ]
   },
+  /*
   'B': {
-    pointerX: 0, /**/
+    pointerX: 0, 
     pointerY: 1,
     pointer: {
       default: [0, 2],
@@ -33,7 +44,7 @@ const TYPES = {
     ]
   },
   'C': {
-    pointerX: 0, /**/
+    pointerX: 0, 
     pointerY: 1,
     pointer: {
       default: [0, 2],
@@ -43,14 +54,14 @@ const TYPES = {
     },
     color: 'crimson',
     shape: [
-      [0, 0, 0, 0],
       [1, 1, 1, 1],
       [0, 0, 0, 1],
+      [0, 0, 0, 0],
       [0, 0, 0, 0],
     ]
   },
   'D': {
-    pointerX: 0, /**/
+    pointerX: 0, 
     pointerY: 2,
     pointer: {
       default: [0, 2],
@@ -76,10 +87,10 @@ const TYPES = {
     },
     color: 'pink',
     shape: [
+      [1, 0, 0, 0],
+      [1, 0, 0, 0],
+      [1, 1, 0, 0],
       [0, 1, 0, 0],
-      [0, 1, 0, 0],
-      [0, 1, 1, 0],
-      [0, 0, 1, 0],
     ]
   },
   'F': {
@@ -192,8 +203,10 @@ const TYPES = {
       [0, 0, 1],
       [0, 1, 1]
     ]
-  },
+  },*/
 
 }
 
 export default TYPES;
+
+

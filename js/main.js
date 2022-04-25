@@ -31,7 +31,6 @@ let rotate = 0;
 let flipH = false;
 let flipV = false;
 fig.onSelect((id, r, fH, fV)=>{
-
     ID = id
     rotate = r;
     flipH = fH;
@@ -50,7 +49,6 @@ function setMap (){
 
   maps['Новичёк'][0].forEach(item=>{
     const { id , x, y, rotate, flipH, flipV } = item;
-
     const F = new Figure(id, x, y)
     for(let i = 0; i<rotate;i++){
         F.rotate();
@@ -72,7 +70,7 @@ function setMap (){
 
 }
 
-setMap();
+//setMap();
 
 
 
@@ -81,62 +79,50 @@ board.on('click', event=>{
   board.grid.forEach( (row, y) => {
     row.forEach( (cell, x) => {
       const collision =  board.collision(cell, event);
-      if(board.grid[y][x].select){
-        board.grid[y][x].select = false;
-        board.grid[y][x].value = 0
-        board.grid[y][x].color =  board.color;
-      }
-      if(collision&&board.grid[y][x].value>0){
-          // board.removeFigure('A');
-      };
       if(collision){
-            //board.grid[y][x].select = true;
-            //board.grid[y][x].value = 1
-            //board.grid[y][x].color = 'darkgray';
-            /* click*/
+
             if(!ID) return;
 
-            const isID = board.figures.find(f=>{
-                return f.id===ID
-            })
-            if(isID) return;
+
+            /**
+             * if(board.isExistFigure(ID)) return;
+             */
             const F =  new Figure(ID, x, y);
-            console.log(board.isFiguresCollide(F))
+            //console.log(board.isFiguresCollide(F))
             if(!board.isFiguresCollide(F)){
               console.log('Не все ячейки свободны')
-              return;
+             // return;
             }
-            fig.disable(ID)
+            /**
+             * fig.disable(ID)
+             */
             /*
              * Трансформации
              */
-            for(let i = 0; i<rotate;i++){
-                F.rotate();
-            }
+            F.rotate(rotate);
             if(flipH){
               F.flip('H');
             }
             if(flipV){
               F.flip('V');
             }
+
+            board.setFigure(F);
             rotate = 0;
             flipH = false;
             flipV = false;
             ID = null;
-            board.setFigure(F);
-
       }
 
       
     })
   })
   //board.reset();
-  board.render()
+  board.update()
 
 
 
 })
-
 
 //alert('Может отказаться от canvas? в пользу DOM')
 
