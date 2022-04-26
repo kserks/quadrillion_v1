@@ -106,7 +106,7 @@ board.on('click', event=>{
             if(flipV){
               F.flip('V');
             }
-
+            document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})
             board.setFigure(F);
             rotate = 0;
             flipH = false;
