@@ -100,7 +100,6 @@ const TYPES = {
       0: [ { x: 0, y: 1 }, { x: 2, y: 1 }, { x: 0, y: 1 }, { x: 2, y: 1 } ],
       1: [ { x: 1, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 1, y: 2 } ],
       2: [ { x: 2, y: 1 }, { x: 0, y: 1 }, { x: 2, y: 1 }, { x: 0, y: 1 } ],
-
       3: [ { x: 1, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 1, y: 0 } ]
     },
     color: 'deepskyblue',
@@ -109,15 +108,14 @@ const TYPES = {
       [1, 0, 0],
       [0, 0, 0],
     ]
-  },/*
+  },
   'H': {
-    pointerX: 0,
-    pointerY: 2,
     pointer: {
-      default: [0, 3],
-      flipV: [0, 1],
-      flipH: [4, 2],
-      pos_1: [0, 2], // rotate
+      // default                 flipH         flipV          flipHV
+      0: [ { x: 0, y: 2 }, { x: 2, y: 2 }, { x: 0, y: 0 }, { x: 2, y: 0 } ],
+      1: [ { x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: 2, y: 2 } ],
+      2: [ { x: 2, y: 0 }, { x: 0, y: 0 }, { x: 2, y: 2 }, { x: 0, y: 2 } ],
+      3: [ { x: 2, y: 2 }, { x: 0, y: 2 }, { x: 2, y: 0 }, { x: 0, y: 0 } ]
     },
     color: 'cyan',
     shape: [
@@ -127,20 +125,19 @@ const TYPES = {
     ]
   },
   'I': {
-    pointerX: 0,
-    pointerY: 0,
     pointer: {
-      default: [0, 3],
-      flipV: [0, 1],
-      flipH: [4, 2],
-      pos_1: [0, 2], // rotate
+      // default                 flipH         flipV          flipHV
+      0: [ { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 } ],
+      1: [ { x: 1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 } ],
+      2: [ { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 1, y: 0 }, { x: 0, y: 0 } ],
+      3: [ { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 0 } ]
     },
     color: 'skyblue',
     shape: [
       [1, 1],
       [0, 1],
     ]
-  },
+  },/*
   'J': {
     pointerX: 0,
     pointerY: 0,

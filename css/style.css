@@ -20,6 +20,22 @@ body{
   flex-direction: column;
   user-select: none;
 }
+
+/*json*/
+
+
+.figure-json{
+  user-select: all;
+  color: gray;
+  margin-top: 0;
+  margin-bottom: 10px;
+  height: 25px;
+}
+.figure-json::selection{
+  background-color: gold;
+}
+
+/**/
 .board-wrapper{
   display: flex;
 }
@@ -130,3 +146,4 @@ body{
   width: 40px;
   height: 60px;
 }
+

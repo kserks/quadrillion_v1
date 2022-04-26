@@ -28,7 +28,8 @@ class SelectFigureBar {
         this.id = e.target.getAttribute('data-id');
         this.target = e.target;
 
-        this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV)
+        this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV);
+        
     });
     /**
      * Крутим фигуры вокруг своей оси
@@ -91,7 +92,7 @@ class SelectFigureBar {
   }
   onSelect (onSelectItem){
     this.onSelectItem = onSelectItem;
-
+    return this;
   }
   disable (id){
     const f = document.querySelector(`.figures__item[data-id="${id}"]`);
@@ -105,6 +106,14 @@ class SelectFigureBar {
   getTransformValue (){
     const { scaleX, scaleY, rotate } = this.transformData;
     return `scale(${scaleX}, ${scaleY}) rotate(${this.angle}deg)`;
+  }
+  reset (){
+    this.id = null;
+    this.rotate = 0; //123
+    this.angle = 0;
+    this.flipH = false;
+    this.flipV = false;
+    this.target = null;
   }
 }
 

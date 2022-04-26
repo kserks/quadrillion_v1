@@ -1,5 +1,5 @@
 export default {
-  'Новичёк': [
+  'starter': [
       [
         { id: 'E', x: -1, y: 0, rotate: 2, flipH: false, flipV: false },
         { id: 'A', x: 1, y: 2, rotate: 0, flipH: false, flipV: true },
@@ -11,6 +11,12 @@ export default {
         { id: 'G', x: 6, y: 1, rotate: 0, flipH: false, flipV: false },
         { id: 'J', x: 6, y: 2, rotate: 1, flipH: false, flipV: true },
         { id: 'F', x: 8, y: 4, rotate: 0, flipH: false, flipV: true },
+      ],
+      [
+        {"id":"A","x":0,"y":0,"rotate":1,"flipH":false,"flipV":false},
+        {"id":"D","x":0,"y":4,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"B","x":2,"y":2,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"C","x":3,"y":1,"rotate":1,"flipH":false,"flipV":false},
       ]
   ]
 }
