@@ -228,6 +228,22 @@ class Board {
   isExistFigure (id){
     return this.figures.find(f=>f.id===ID);
   }
+  isLevelEnd (){
+    let status = false
+    let i = 0;
+    this.grid.map( (row, y) => {
+        row.map( (cell, x) => {
+            if(cell.value===1){
+              i++
+            }
+
+        })
+    });
+    if(i===55){
+      status = true;
+    }
+    return status;
+  }
 }
 
 /**

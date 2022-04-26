@@ -45,14 +45,12 @@ board.update();
 window.board = board
 
 
-function setMap (){
+function setMap (level, index){
 
-  maps['Новичёк'][0].forEach(item=>{
+  maps[level][index].forEach(item=>{
     const { id , x, y, rotate, flipH, flipV } = item;
     const F = new Figure(id, x, y)
-    for(let i = 0; i<rotate;i++){
-        F.rotate();
-    }
+    F.rotate(rotate);
     if(flipH){
       F.flip('H');
     }
@@ -70,7 +68,7 @@ function setMap (){
 
 }
 
-//setMap();
+setMap('starter', 8);
 
 console.log('DOM render | выделение фигуры')
 
@@ -93,9 +91,7 @@ board.on('click', event=>{
               console.log('Не все ячейки свободны')
              // return;
             }
-            /**
-             * fig.disable(ID)
-             */
+            fig.disable(ID);
             /*
              * Трансформации
              */
@@ -106,8 +102,13 @@ board.on('click', event=>{
             if(flipV){
               F.flip('V');
             }
-            document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})
+            document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})+','
             board.setFigure(F);
+            if(board.isLevelEnd()){
+              setTimeout(()=>{
+                alert('Уровень пройден')
+              },500)
+            }
             rotate = 0;
             flipH = false;
             flipV = false;
