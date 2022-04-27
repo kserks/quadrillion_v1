@@ -2,29 +2,16 @@
 import SelectFigureBar from './SelectFigureBar.js';
 import Figure from './Figure.js';
 import Board from './Board.js';
-import maps from './maps.js';
 
+import LevelsControl from './LevelsControl.js';
 
 const canvas = document.querySelector('.board__canvas');
 const ctx = canvas.getContext('2d');
 
 
-const FIGURES = [
-  { id: 'A', url: 'images/A.png' },
-  { id: 'B', url: 'images/B.png' },
-  { id: 'C', url: 'images/C.png' },
-  { id: 'D', url: 'images/D.png' },
-  { id: 'E', url: 'images/E.png' },
-  { id: 'F', url: 'images/F.png' },
-  { id: 'G', url: 'images/G.png' },
-  { id: 'H', url: 'images/H.png' },
-  { id: 'I', url: 'images/I.png' },
-  { id: 'J', url: 'images/J.png' },
-  { id: 'K', url: 'images/K.png' },
-  { id: 'L', url: 'images/L.png' }
-]
 
-const fig = new SelectFigureBar(FIGURES);
+
+const fig = new SelectFigureBar();
 
 let ID = null
 let rotate = 0;
@@ -45,32 +32,11 @@ board.update();
 window.board = board
 
 
-function setMap (level, index){
 
-  maps[level][index].forEach(item=>{
-    const { id , x, y, rotate, flipH, flipV } = item;
-    const F = new Figure(id, x, y)
-    F.rotate(rotate);
-    if(flipH){
-      F.flip('H');
-    }
-    if(flipV){
-      F.flip('V');
-    }
-    if(!board.isFiguresCollide(F)){
-       // alert('Не все ячейки свободны')
-       // return;
-    }
-    board.setFigure(F);
-    fig.disable(id)
-  })
-  board.render();
+/**
+ * Обработка клика по canvas
+ */
 
-}
-
-setMap('starter', 8);
-
-console.log('DOM render | выделение фигуры')
 
 board.on('click', event=>{
 
@@ -78,20 +44,12 @@ board.on('click', event=>{
     row.forEach( (cell, x) => {
       const collision =  board.collision(cell, event);
       if(collision){
-
+            console.log(ID, rotate, flipH, flipV)
             if(!ID) return;
-
-
-            /**
-             * if(board.isExistFigure(ID)) return;
-             */
-            const F =  new Figure(ID, x, y);
-            //console.log(board.isFiguresCollide(F))
-            if(!board.isFiguresCollide(F)){
-              console.log('Не все ячейки свободны')
-             // return;
-            }
+            if(board.isExistFigure(ID)) return;
             fig.disable(ID);
+            fig.reset();
+            const F =  new Figure(ID, x, y);
             /*
              * Трансформации
              */
@@ -104,11 +62,13 @@ board.on('click', event=>{
             }
             document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})+','
             board.setFigure(F);
+
             if(board.isLevelEnd()){
               setTimeout(()=>{
                 alert('Уровень пройден')
               },500)
             }
+
             rotate = 0;
             flipH = false;
             flipV = false;
@@ -118,37 +78,14 @@ board.on('click', event=>{
       
     })
   })
-  //board.reset();
   board.update()
 
 
 
 })
 
-//alert('Может отказаться от canvas? в пользу DOM')
 
-/*
-function animate() {
-  board.piece.draw();
-  requestAnimationFrame(this.animate.bind(this));
-}
-*/
-/**
- * play
- */
+const levelsControl = new LevelsControl(board, fig);
 
-function play (){
-  board.update();
 
-const D = 3000
-
-/*
-setTimeout(()=>{
-  board.figures[0].rotate();
-  board.render();
-}, D)*/
-
-}
-
-play ()
 

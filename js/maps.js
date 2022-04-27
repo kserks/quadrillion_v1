@@ -56,10 +56,10 @@ export default {
         {"id":"A","x":4,"y":0,"rotate":1,"flipH":true,"flipV":false},
         {"id":"L","x":6,"y":0,"rotate":0,"flipH":true,"flipV":false},
         {"id":"B","x":7,"y":2,"rotate":1,"flipH":false,"flipV":true},
-        //////////// НЕ СОБИРАЕТСЯ
-
-
-
+        //
+        //{"id":"E","x":8,"y":3,"rotate":2,"flipH":true,"flipV":false},
+        //{"id":"J","x":8,"y":4,"rotate":3,"flipH":false,"flipV":false},
+        //{"id":"G","x":9,"y":2,"rotate":1,"flipH":false,"flipV":true},
 
       ],
       [
@@ -139,7 +139,53 @@ export default {
 
       ],
       [
-          /*10*/
+        {"id":"J","x":2,"y":0,"rotate":1,"flipH":false,"flipV":false},
+        {"id":"L","x":3,"y":1,"rotate":3,"flipH":false,"flipV":false},
+        {"id":"D","x":6,"y":0,"rotate":0,"flipH":false,"flipV":true},
+        {"id":"K","x":7,"y":0,"rotate":0,"flipH":false,"flipV":false},
+        {"id":"F","x":10,"y":0,"rotate":0,"flipH":true,"flipV":true},
+        {"id":"C","x":9,"y":3,"rotate":2,"flipH":false,"flipV":false},
+        {"id":"E","x":7,"y":4,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"I","x":5,"y":2,"rotate":2,"flipH":false,"flipV":false},
+        {"id":"H","x":8,"y":4,"rotate":0,"flipH":false,"flipV":false},
+        //
+        //{"id":"A","x":1,"y":4,"rotate":0,"flipH":false,"flipV":false},
+        //{"id":"B","x":2,"y":1,"rotate":1,"flipH":true,"flipV":false},
+        //{"id":"G","x":1,"y":2,"rotate":1,"flipH":true,"flipV":false},
+
+
+      ],
+      [
+        {"id":"I","x":1,"y":0,"rotate":0,"flipH":true,"flipV":false},
+        {"id":"E","x":4,"y":0,"rotate":1,"flipH":false,"flipV":false},
+        {"id":"B","x":5,"y":2,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"J","x":4,"y":2,"rotate":0,"flipH":false,"flipV":false},
+        {"id":"A","x":6,"y":4,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"F","x":7,"y":0,"rotate":0,"flipH":false,"flipV":true},
+        {"id":"K","x":8,"y":0,"rotate":0,"flipH":false,"flipV":false},
+        {"id":"H","x":8,"y":3,"rotate":0,"flipH":false,"flipV":false},
+        {"id":"C","x":10,"y":4,"rotate":2,"flipH":false,"flipV":false},
+        //
+        //{"id":"D","x":2,"y":3,"rotate":0,"flipH":false,"flipV":false},
+        //{"id":"G","x":1,"y":2,"rotate":1,"flipH":true,"flipV":false},
+        //{"id":"L","x":3,"y":3,"rotate":1,"flipH":false,"flipV":false},
+
+      ],
+      [
+        {"id":"J","x":2,"y":1,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"L","x":1,"y":4,"rotate":2,"flipH":false,"flipV":false},
+        {"id":"K","x":1,"y":3,"rotate":0,"flipH":false,"flipV":true},
+        {"id":"C","x":2,"y":4,"rotate":2,"flipH":true,"flipV":false},
+        {"id":"G","x":7,"y":4,"rotate":1,"flipH":true,"flipV":true},
+        {"id":"B","x":5,"y":2,"rotate":0,"flipH":true,"flipV":false},
+        {"id":"A","x":2,"y":0,"rotate":2,"flipH":true,"flipV":false},
+        {"id":"D","x":7,"y":0,"rotate":1,"flipH":true,"flipV":false},
+        {"id":"H","x":8,"y":0,"rotate":0,"flipH":false,"flipV":true},
+        //
+        //{"id":"F","x":7,"y":2,"rotate":0,"flipH":false,"flipV":true},
+        //{"id":"I","x":7,"y":1,"rotate":0,"flipH":false,"flipV":false},
+        //{"id":"E","x":9,"y":1,"rotate":0,"flipH":false,"flipV":false},
+
       ]
   ]
 }

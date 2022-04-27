@@ -15,10 +15,11 @@ body{
 
 .app{
   /*width: 1024px;*/
-  height: 767px;
+  /*height: 767px;*/
   display: flex;
   flex-direction: column;
   user-select: none;
+  position: relative;
 }
 
 /*json*/
@@ -28,7 +29,7 @@ body{
   user-select: all;
   color: gray;
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-top: 30px;
   height: 25px;
 }
 .figure-json::selection{
@@ -53,12 +54,15 @@ body{
 .controls{
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   border: 1px solid gray;
   padding: 5px;
   margin-left: 10px;
 }
-
+.controls__group{
+  display: flex;
+  flex-direction: column;
+}
 .controls__item{
   width: 60px;
   height: 60px;
@@ -70,6 +74,8 @@ body{
 .controls__item:hover{
   filter: brightness(150%);
 }
+.controls__item--grid{}
+
 .controls__item--rotate{
   transform: scale(-1, 1);
 }
@@ -147,3 +153,51 @@ body{
   height: 60px;
 }
 
+/**
+ * Modal
+ */
+.modal-levels{
+  display: none;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  background-color: #334;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  padding: 100px 152px;
+
+}
+.modal-levels__levels{
+  align-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.levels__level{
+  width: 150px;
+  height: 70px;
+  margin: 10px;
+  background-color: orange;
+  border: 4px solid gray;
+  border-radius: 8px;
+}
+.levels__level:hover{
+  border: 4px solid wheat;
+  cursor: pointer;
+}
+
+.modal-levels__close{
+  color: brown;
+  font-size: 36px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  margin: 0;
+  cursor: pointer;
+}
+.modal-levels__close:hover{
+  color: crimson;
+}

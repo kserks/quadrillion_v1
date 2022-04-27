@@ -33,7 +33,7 @@ class Board {
   setFigure (value){
     this.figures.push(value);
     this.render();
-   // this.update();
+    //this.update();
   }
   on(event, handler){
     this.events[event] = handler;
@@ -226,7 +226,7 @@ class Board {
     return this.grid[y] && this.grid[y][x].value === 0;
   }
   isExistFigure (id){
-    return this.figures.find(f=>f.id===ID);
+    return this.figures.find(f=>f.id===id);
   }
   isLevelEnd (){
     let status = false
@@ -245,12 +245,6 @@ class Board {
     return status;
   }
 }
-
-/**
- * Usage
- board.getFigureById ('A')
-
- */
 
 
 export default Board;

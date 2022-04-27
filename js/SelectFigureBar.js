@@ -1,7 +1,21 @@
+const FIGURES = [
+  { id: 'A', url: 'images/figures/A.png' },
+  { id: 'B', url: 'images/figures/B.png' },
+  { id: 'C', url: 'images/figures/C.png' },
+  { id: 'D', url: 'images/figures/D.png' },
+  { id: 'E', url: 'images/figures/E.png' },
+  { id: 'F', url: 'images/figures/F.png' },
+  { id: 'G', url: 'images/figures/G.png' },
+  { id: 'H', url: 'images/figures/H.png' },
+  { id: 'I', url: 'images/figures/I.png' },
+  { id: 'J', url: 'images/figures/J.png' },
+  { id: 'K', url: 'images/figures/K.png' },
+  { id: 'L', url: 'images/figures/L.png' }
+]
 
 class SelectFigureBar {
-  constructor (figures){
-    this.figures = figures;
+  constructor (){
+    this.figures = FIGURES;
     this.id = null;
     this.rotate = 0; //123
     this.angle = 0;
@@ -98,13 +112,22 @@ class SelectFigureBar {
     const f = document.querySelector(`.figures__item[data-id="${id}"]`);
     f.style.opacity = 0.1;
     f.style.pointerEvents = 'none'
-  } 
+  }
+  enable (id){
+    const f = document.querySelector(`.figures__item[data-id="${id}"]`);
+    f.style.opacity = 1;
+    f.style.pointerEvents = 'all'
+  }
+  enableAll (){
+    this.figures.forEach(item=>this.enable(item.id) );
+  }
   transform (){
+    console.log(this.target)
     this.target.style.transform = this.getTransformValue();
     console.log(this.target.style.transform)
   }
   getTransformValue (){
-    const { scaleX, scaleY, rotate } = this.transformData;
+    const { scaleX, scaleY } = this.transformData;
     return `scale(${scaleX}, ${scaleY}) rotate(${this.angle}deg)`;
   }
   reset (){
@@ -114,6 +137,10 @@ class SelectFigureBar {
     this.flipH = false;
     this.flipV = false;
     this.target = null;
+    this.transformData.scaleY = 1;
+    this.transformData.scaleX = 1;
+    this.transformData.rotate = 0;
+
   }
 }
 
