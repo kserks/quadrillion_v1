@@ -38,9 +38,9 @@ class SelectFigureBar {
      */
     this.view.container.addEventListener('click', e=>{
         if(!e.target.className.includes('figures__item')) return;
-        this.angle = 0;
-        this.id = e.target.getAttribute('data-id');
+        this.reset();
         this.target = e.target;
+        this.id = e.target.getAttribute('data-id');
         this.onSelectItem(this.id, this.rotate, this.flipH, this.flipV);
     });
     /**
@@ -114,6 +114,10 @@ class SelectFigureBar {
     const f = document.querySelector(`.figures__item[data-id="${id}"]`);
     f.style.opacity = 1;
     f.style.pointerEvents = 'all';
+    if(this.target){
+      this.target.style.transform = `scale(1, 1) rotate(0deg)`;
+    }
+    this.reset();
   }
   enableAll (){
     this.figures.forEach(item=>this.enable(item.id) );
@@ -133,11 +137,10 @@ class SelectFigureBar {
     this.angle = 0;
     this.flipH = false;
     this.flipV = false;
-    this.target = null;
     this.transformData.scaleY = 1;
     this.transformData.scaleX = 1;
     this.transformData.rotate = 0;
-
+    //this.target = null;
   }
 }
 

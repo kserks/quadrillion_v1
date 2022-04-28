@@ -38,7 +38,7 @@ class LevelsControl {
     render (){
       levelsContainer.innerHTML = '';
       this.levels.forEach( (item, index)=>{
-          const tpl = `<img src="images/levels/l_${index+1}.png" data-index="${index}" class="levels__level"/>`;
+          const tpl = `<img src="images/levels/l_${index}.png" data-index="${index}" class="levels__level"/>`;
           levelsContainer.innerHTML += tpl;
       })
     }
@@ -51,8 +51,6 @@ class LevelsControl {
       modalLevels.style.display = 'none';
     }
     setLevel (index){
-      console.clear();
-      console.info('Мутирует Figure')
         this.__board.reset();
         this.__figureControls.enableAll();
         this.levels[index].map(item=>{

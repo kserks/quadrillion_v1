@@ -35,13 +35,14 @@ board.on('outside', id=>{
     fig.enable(id);    
 })
 board.on('complete', ()=>{
-
+    /*
     setTimeout(()=>{
       alert('Уровень пройден')
     },500)
+    */
 })
 
-console.log('Можно крутить не активные фигуры')
+
 /**
  * Обработка клика по canvas
  */
@@ -50,14 +51,15 @@ board.on('click', (cell, x, y)=>{
 
             if(cell.id){
               fig.enable(cell.id);
-              board.removeFigure(cell.id)
+              board.removeFigure(cell.id);
+
             };
 
             if(!ID) return;
             if(board.isExistFigure(ID)) return;
 
             fig.disable(ID);
-            fig.reset();
+
             // Добавление фигуры
             const f =  new Figure(ID, x, y);
             f.rotate(rotate);

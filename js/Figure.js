@@ -24,7 +24,6 @@ class Figure {
     this.TYPES = JSON.parse(JSON.stringify(TYPES))
     this.color = this.TYPES[this.id].color;
     this.shape = this.TYPES[this.id].shape;
-    window.tid = this.TYPES[this.id].shape
   }
   set x (val){
       this.#x = val;
@@ -95,7 +94,6 @@ class Figure {
           }
           this.shape = this.shape.map(row => row.reverse());
     }
-    console.log(this.id, this.shape)
   }
 
 }
