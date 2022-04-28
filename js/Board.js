@@ -12,7 +12,9 @@ class Board {
     this.height = this.ROWS * this.BLOCK_SIZE + 5;
     this.color = 'gray';
     this.events = {
-      click: ()=>{}
+      click: Function(),
+      outside: Function(),
+      complete: Function()
     };
     //this.offTheBoardFlag = false;
     this.init()
@@ -27,8 +29,28 @@ class Board {
         this.x = e.clientX - left;
         this.y = e.clientY - top;
         const eventData = { x: this.x, y: this.y, width: 0.5, height: 0.5 }
-        this.events.click(eventData);
+        this.onClick(eventData);
     })
+  }
+
+  onClick (eventData){
+    
+    this.grid.map( (row, y) => {
+        row.map( (cell, x) => {
+            const collide =  this.collision(cell, eventData);
+            if(collide){
+
+                this.events.click(cell, x, y);
+                setTimeout(()=>{
+                  if(this.isLevelComplete()){
+                      this.events.complete();
+                  }
+                }, 100)
+            }
+
+        })
+    })
+
   }
   setFigure (value){
     this.figures.push(value);
@@ -74,7 +96,6 @@ class Board {
                         y: stepY,
                         value: 0,
                         color: this.color,
-                        select: false,
                         id: null
                 }
                 // Смещение по X
@@ -98,8 +119,8 @@ class Board {
     //this.grid[3][2].color = 'red'
     //this.ctx.strokeStyle = "silver";
 
-    this.grid.forEach( (row, y) => {
-        row.forEach( (cell, x) =>{
+    this.grid.map( (row, y) => {
+        row.map( (cell, x) =>{
             this.ctx.fillStyle = cell.color;
             this.ctx.fillRect(cell.x, cell.y, cell.width, cell.height );
             //this.ctx.strokeRect(cell.x, cell.y, cell.width, cell.height);
@@ -112,9 +133,9 @@ class Board {
    */
   
   mergeFiguresToGrid (){
-    this.figures.forEach(f=>{
-        f.shape.forEach((row, y)=>{
-            row.forEach((value, x)=>{
+    this.figures.map(f=>{
+        f.shape.map((row, y)=>{
+            row.map((value, x)=>{
                 if(value>0){
                     try{
                       //this.offTheBoardFlag = false;
@@ -123,11 +144,8 @@ class Board {
                       this.grid[y+f.y][x+f.x].id = f.id;
                     }
                     catch(err){
-                      if(!this.offTheBoardFlag){
-                          this.removeFigure(f.id);
-                          console.log(f.id, 'Фигура не вписывается в пределы сетки');
-                          //this.offTheBoardFlag = true;
-                      }
+                      this.events.outside(f.id);
+                      this.removeFigure(f.id);
                     }
                 }
             })
@@ -141,10 +159,14 @@ class Board {
    */
   getFigureById (id){
     const coords = [];
-    this.grid.forEach( (row, y) => {
-        row.forEach( (cell, x) => {
+    this.grid.map( (row, y) => {
+        row.map( (cell, x) => {
             if(cell.id===id){
-              coords.push({ x, y });
+              cell.x = x;
+              cell.y = y;
+              delete cell.width;
+              delete cell.height;
+              coords.push(cell);
             }
         })
     });
@@ -156,17 +178,15 @@ class Board {
     /**
      * Получаю список координат ячеек заполненных фигурой
      */
-    const coords = this.getFigureById(id);
+    const cells = this.getFigureById(id);
     /**
      * Пробегаюсь по полученным ячейкам и сбрасываю их 
      * на значение по умолчанию
      */
-    coords.forEach( pos=>{
-        const cell = this.getCurrentCell(pos.x, pos.y);
-        cell.color = this.color;
-        cell.select = false;
-        cell.value = 0;
-        cell.id = null;
+    cells.map( cell=>{
+        this.grid[cell.y][cell.x].color = this.color;
+        this.grid[cell.y][cell.x].value = 0;
+        this.grid[cell.y][cell.x].id = null;
     });
     /**
      * Удаляю фигуру из общего массива
@@ -191,7 +211,7 @@ class Board {
     if (XColl&YColl){return true;}
     return false;
   }
-  getCurrentCell (x, y){
+  getCell (x, y){
     return this.grid[y][x];
   }
   /*
@@ -208,8 +228,9 @@ class Board {
     index = false;
   }
   */
+  /*
   isFiguresCollide (F){
-  
+    
     return F.shape.every((row, dy) => {
       return row.every((value, dx) => {
         let x = F.x + dx;
@@ -224,11 +245,11 @@ class Board {
     return 0;
     //console.log(x, y)
     return this.grid[y] && this.grid[y][x].value === 0;
-  }
+  }*/
   isExistFigure (id){
     return this.figures.find(f=>f.id===id);
   }
-  isLevelEnd (){
+  isLevelComplete (){
     let status = false
     let i = 0;
     this.grid.map( (row, y) => {

@@ -14,34 +14,32 @@ class LevelsControl {
 
     #open = false;
     levels = Object.values(maps).flat();
-    currentLevel = null;
     constructor (board, figureControls){
-      this.board = board;
-      this.figureControls = figureControls; 
+      this.__board = board;
+      this.__figureControls = figureControls; 
       this.mount();
       this.render();
     }
     mount (){
         openLevelsBtn.addEventListener('mousedown', ()=>{
           this.open();
-        })
+        });
 
         closeModal.addEventListener('mousedown', ()=>{
           this.close()
-        })
+        });
 
         levelsContainer.addEventListener('mousedown', e=>{
-          if(!e.target.className.includes('levels__level')) return;
+          if(e.target.tagName!=='IMG') return;
           const index = e.target.dataset.index;
-          this.currentLevel = this.levels[index]
-          this.setLevel();
+          this.setLevel(index);
           this.close();  
         })
     }
     render (){
       levelsContainer.innerHTML = '';
       this.levels.forEach( (item, index)=>{
-          const tpl = `<img src="images/levels/l_${index+1}.png" data-index="${index}" class="levels__level"/>`
+          const tpl = `<img src="images/levels/l_${index+1}.png" data-index="${index}" class="levels__level"/>`;
           levelsContainer.innerHTML += tpl;
       })
     }
@@ -54,26 +52,24 @@ class LevelsControl {
       modalLevels.style.display = 'none';
     }
     setLevel (index){
-        this.board.reset();
-        this.figureControls.enableAll();
-        this.currentLevel.forEach(item=>{
+      console.clear();
+      console.info('Мутирует Figure')
+        this.__board.reset();
+        this.__figureControls.enableAll();
+        this.levels[index].forEach(item=>{
           const { id , x, y, rotate, flipH, flipV } = item;
-          const F = new Figure(id, x, y)
-          F.rotate(rotate);
-          if(flipH){
-            F.flip('H');
-          }
-          if(flipV){
-            F.flip('V');
-          }
-          if(!this.board.isFiguresCollide(F)){
+          const f = new Figure(id, x, y)
+          f.rotate(rotate);
+          if(flipH) f.flip('H');
+          if(flipV) f.flip('V');
+          //if(!this.__board.isFiguresCollide(F)){
              // alert('Не все ячейки свободны')
              // return;
-          }
-          this.board.setFigure(F);
-          this.figureControls.disable(id)
+          //}
+          this.__board.setFigure(f);
+          this.__figureControls.disable(id)
         })
-        this.board.render();
+        this.__board.render();
     }
 }
 

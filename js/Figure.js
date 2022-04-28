@@ -71,7 +71,7 @@ class Figure {
   flip (direction){
     if(direction==='H'){
         this.objTransform.H = !this.objTransform.H;
-        this.shape =  this.shape.map( (row, y) => row.reverse() );
+        this.shape =  this.shape.map( row => row.reverse() );
     }
     if(direction==='V'){
         this.objTransform.V = !this.objTransform.V;
@@ -90,7 +90,7 @@ class Figure {
 
             }
           }
-          this.shape.forEach(row => row.reverse());
+          this.shape = this.shape.map(row => row.reverse());
     }
 
   }

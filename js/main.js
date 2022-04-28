@@ -31,54 +31,52 @@ const board = new Board(canvas, ctx);
 board.update();
 window.board = board
 
+board.on('outside', id=>{
+    fig.enable(id);    
+})
+board.on('complete', ()=>{
 
+    setTimeout(()=>{
+      alert('Уровень пройден')
+    },500)
+})
 
+console.log('Можно крутить не активные фигуры')
 /**
  * Обработка клика по canvas
  */
 
+board.on('click', (cell, x, y)=>{
 
-board.on('click', event=>{
+            if(cell.id){
+              fig.enable(cell.id);
+              board.removeFigure(cell.id)
+            };
 
-  board.grid.forEach( (row, y) => {
-    row.forEach( (cell, x) => {
-      const collision =  board.collision(cell, event);
-      if(collision){
-            console.log(ID, rotate, flipH, flipV)
             if(!ID) return;
             if(board.isExistFigure(ID)) return;
+
             fig.disable(ID);
             fig.reset();
-            const F =  new Figure(ID, x, y);
-            /*
-             * Трансформации
-             */
-            F.rotate(rotate);
-            if(flipH){
-              F.flip('H');
-            }
-            if(flipV){
-              F.flip('V');
-            }
+            // Добавление фигуры
+            const f =  new Figure(ID, x, y);
+            f.rotate(rotate);
+            if(flipH) f.flip('H');
+            if(flipV) f.flip('V');
+            board.setFigure(f);
             document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})+','
-            board.setFigure(F);
-
-            if(board.isLevelEnd()){
-              setTimeout(()=>{
-                alert('Уровень пройден')
-              },500)
-            }
 
             rotate = 0;
             flipH = false;
             flipV = false;
             ID = null;
-      }
 
-      
-    })
-  })
-  board.update()
+            /*const f = board.getFigureById(F.id)
+           
+            f.forEach(pos=>{
+                const cell = board.getCell (pos.x, pos.y)
+                   console.log(cell)
+            })*/
 
 
 
