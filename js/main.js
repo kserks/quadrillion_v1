@@ -61,9 +61,10 @@ board.on('click', (cell, x, y)=>{
             // Добавление фигуры
             const f =  new Figure(ID, x, y);
             f.rotate(rotate);
-            if(flipH) f.flip('H');
-            if(flipV) f.flip('V');
+            if(flipH) f.flipH();
+            if(flipV) f.flipV();
             board.setFigure(f);
+            board.update();
             document.querySelector('.figure-json').innerText = JSON.stringify({id: ID, x, y, rotate, flipH, flipV})+','
 
             rotate = 0;

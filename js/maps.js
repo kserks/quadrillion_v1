@@ -213,7 +213,26 @@ export default {
         {"id":"B","x":4,"y":2,"rotate":1,"flipH":true,"flipV":false},
         {"id":"D","x":6,"y":3,"rotate":0,"flipH":true,"flipV":false},
         {"id":"G","x":7,"y":3,"rotate":0,"flipH":true,"flipV":true},
-        
+        //
+        //{"id":"F","x":7,"y":1,"rotate":0,"flipH":false,"flipV":true},
+        //{"id":"H","x":8,"y":4,"rotate":0,"flipH":false,"flipV":false},
+        //{"id":"L","x":6,"y":1,"rotate":3,"flipH":false,"flipV":false},
+        //{"id":"J","x":9,"y":2,"rotate":0,"flipH":false,"flipV":true},
+      ],
+      [
+        {"id":"A","x":3,"y":0,"rotate":2,"flipH":false,"flipV":false},
+        {"id":"B","x":2,"y":2,"rotate":0,"flipH":true,"flipV":false},
+        {"id":"L","x":2,"y":3,"rotate":1,"flipH":false,"flipV":false},
+        {"id":"C","x":3,"y":4,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"G","x":5,"y":0,"rotate":1,"flipH":true,"flipV":false},
+        {"id":"D","x":5,"y":1,"rotate":1,"flipH":false,"flipV":true},
+        {"id":"F","x":4,"y":4,"rotate":0,"flipH":false,"flipV":false},
+        {"id":"I","x":6,"y":3,"rotate":1,"flipH":false,"flipV":false},
+        //
+        //{"id":"E","x":9,"y":1,"rotate":0,"flipH":false,"flipV":false},
+        //{"id":"H","x":10,"y":2,"rotate":3,"flipH":false,"flipV":false},
+        //{"id":"J","x":7,"y":3,"rotate":0,"flipH":false,"flipV":true},
+        //{"id":"K","x":7,"y":4,"rotate":0,"flipH":false,"flipV":true},
       ]
     ]
  

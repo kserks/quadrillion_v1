@@ -1,6 +1,5 @@
 import maps from './maps.js';
 import Figure from './Figure.js';
-
 /**
  * LEVELS
  */
@@ -56,12 +55,13 @@ class LevelsControl {
       console.info('Мутирует Figure')
         this.__board.reset();
         this.__figureControls.enableAll();
-        this.levels[index].forEach(item=>{
+        this.levels[index].map(item=>{
           const { id , x, y, rotate, flipH, flipV } = item;
           const f = new Figure(id, x, y)
           f.rotate(rotate);
-          if(flipH) f.flip('H');
-          if(flipV) f.flip('V');
+          if(flipH) f.flipH();
+          if(flipV) f.flipV();
+          //console.log(f)
           //if(!this.__board.isFiguresCollide(F)){
              // alert('Не все ячейки свободны')
              // return;
@@ -69,7 +69,7 @@ class LevelsControl {
           this.__board.setFigure(f);
           this.__figureControls.disable(id)
         })
-        this.__board.render();
+        this.__board.update();
     }
 }
 

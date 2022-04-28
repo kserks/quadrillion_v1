@@ -1,3 +1,4 @@
+
 import TYPES from './types.js'
 
 /**
@@ -12,15 +13,18 @@ class Figure {
   #pointerX = 0;
   #pointerY = 0;
   #n = 0;
+  mode = 0;
+  V = false;
+  H = false;
+
   constructor (id, x, y){
     this.id = id
-    this.color = TYPES[this.id].color;
-    //this.pointerX = TYPES[this.id].pointer.rotate[this.rotatePos].x;
-    //this.pointerY = TYPES[this.id].pointer.rotate[this.rotatePos].y;
     this.x = x;
     this.y = y;
-    this.shape = TYPES[this.id].shape;
-    this.objTransform  = { V: false, H: false }
+    this.TYPES = JSON.parse(JSON.stringify(TYPES))
+    this.color = this.TYPES[this.id].color;
+    this.shape = this.TYPES[this.id].shape;
+    window.tid = this.TYPES[this.id].shape
   }
   set x (val){
       this.#x = val;
@@ -36,28 +40,29 @@ class Figure {
   }
 
   get transformMode (){
-    let mode = 0;
-    if(this.objTransform.H&&!this.objTransform.V){
-      mode = 1;
+    this.mode = 0;
+    if(this.H&&!this.V){
+      this.mode = 1;
     }
-    if(this.objTransform.V&&!this.objTransform.H){
-      mode = 2;
+    if(this.V&&!this.H){
+      this.mode = 2;
     }
-    if(this.objTransform.H&&this.objTransform.V){
-      mode = 3;
+    if(this.H&&this.V){
+      this.mode = 3;
     }
-    return mode;
+
+    return this.mode;
   }
   /**
    * При вращении и отражении фигуры, меняется позиция курсора.
    * Точки откуда берет начало фигура
    */
   get pointerX (){
-    return TYPES[this.id].pointer[this.rotatePos][this.transformMode].x;
+    return this.TYPES[this.id].pointer[this.rotatePos][this.transformMode].x;
   }
 
   get pointerY (){
-    return TYPES[this.id].pointer[this.rotatePos][this.transformMode].y;
+    return this.TYPES[this.id].pointer[this.rotatePos][this.transformMode].y;
   }
   /**
    * Сколько раз крутанули фигуру
@@ -68,18 +73,16 @@ class Figure {
   set rotatePos (n){
     this.#n = n;
   }
-  flip (direction){
-    if(direction==='H'){
-        this.objTransform.H = !this.objTransform.H;
-        this.shape =  this.shape.map( row => row.reverse() );
-    }
-    if(direction==='V'){
-        this.objTransform.V = !this.objTransform.V;
-        this.shape.reverse();
-    }
+  flipV (){
+      this.V = !this.V;
+      this.shape.reverse();
+  }
+  flipH (){
+      this.H = !this.H;
+      this.shape =  this.shape.map( row => row.reverse() );
   }
 
-  rotate (n=0){
+  rotate (n){
     this.rotatePos = n;
     // скольлко раз крутануть
     for(let i = 0; i<n; i++){
@@ -92,22 +95,10 @@ class Figure {
           }
           this.shape = this.shape.map(row => row.reverse());
     }
-
+    console.log(this.id, this.shape)
   }
 
 }
 
-/** Usage 
-
-const figure_G = new Figure(ctx, 'deepskyblue', 3, 0, [
-      [2, 2, 2],
-      [2, 0, 0],
-      [0, 0, 0],
-    ]);
-figure_G.flip('H');
-figure_G.flip('V');
-figure_G.rotate(3); // max 3
-
-*/
 
 export default Figure;

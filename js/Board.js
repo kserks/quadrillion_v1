@@ -54,7 +54,7 @@ class Board {
   }
   setFigure (value){
     this.figures.push(value);
-    this.render();
+   // this.render();
     //this.update();
   }
   on(event, handler){
