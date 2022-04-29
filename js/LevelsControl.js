@@ -10,9 +10,16 @@ const levelsContainer = document.querySelector('.modal-levels__levels');
 const openLevelsBtn = document.querySelector('.controls__item--grid');
 
 class LevelsControl {
-
+    index = 0;
+    disabledLevels = [];
     #open = false;
-    levels = Object.values(maps).flat();
+    levels = Object.values(maps)
+                   .flat()
+                   .map(level=>{
+                          return { body: level, disable: false }
+                   });
+    storageKey = 'квадрилион';
+
     constructor (board, figureControls){
       this.__board = board;
       this.__figureControls = figureControls; 
@@ -20,6 +27,7 @@ class LevelsControl {
       this.render();
     }
     mount (){
+        this.load();
         openLevelsBtn.addEventListener('mousedown', ()=>{
           this.open();
         });
@@ -37,12 +45,13 @@ class LevelsControl {
     }
     render (){
       levelsContainer.innerHTML = '';
-      this.levels.forEach( (item, index)=>{
-          const tpl = `<img src="images/levels/l_${index}.png" data-index="${index}" class="levels__level"/>`;
+      this.levels.forEach( (level, index)=>{
+          const tpl = `<img src="images/levels/l_${index}.png" data-index="${index}" class="levels__level ${level.disable?'levels__level--disable':''}"/>`;
           levelsContainer.innerHTML += tpl;
       })
     }
     open (){
+      this.render();
       this.#open = true;
       modalLevels.style.display = 'flex';
     }
@@ -50,10 +59,39 @@ class LevelsControl {
       this.#open = false;
       modalLevels.style.display = 'none';
     }
+    disable (){
+      this.disabledLevels.push(this.index);
+      this.disableLevelsSwitch();
+      this.save();
+
+    }
+    /*
+    enable (index){
+      this.levels[this.index].disable = false;
+    }
+    */
+    save (){
+      localStorage.setItem(this.storageKey, JSON.stringify(this.disabledLevels))
+    }
+    load (){
+      const arr = localStorage.getItem(this.storageKey);
+
+      if(!arr) return;
+      this.disabledLevels = [...new Set( JSON.parse(arr) )];
+      this.disableLevelsSwitch()
+      this.open();
+    }
+    clearStorage (){
+      localStorage.removeItem(this.storageKey);
+    }
+    disableLevelsSwitch (){
+        this.disabledLevels.forEach( i => this.levels[i].disable = true )
+    }
     setLevel (index){
+        this.index = index;
         this.__board.reset();
         this.__figureControls.enableAll();
-        this.levels[index].map(item=>{
+        this.levels[this.index].body.map(item=>{
           const { id , x, y, rotate, flipH, flipV } = item;
           const f = new Figure(id, x, y)
           f.rotate(rotate);

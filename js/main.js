@@ -9,6 +9,9 @@ const canvas = document.querySelector('.board__canvas');
 const ctx = canvas.getContext('2d');
 
 
+class Game {
+    level = 0;
+}
 
 
 const fig = new SelectFigureBar();
@@ -29,21 +32,31 @@ fig.onSelect((id, r, fH, fV)=>{
 
 const board = new Board(canvas, ctx);
 const levelsControl = new LevelsControl(board, fig);
-levelsControl.setLevel(0)
+// отрисовываю первый пустой уровень
+levelsControl.setLevel(0);
 
-board.update();
-window.board = board
 
+// строю начальную структуру
+board.reset();
+
+// если фигура попала за пределы области видимости,
+// то она удаляется и делаем активной фигуру в ножней панеле.
 board.on('outside', id=>{
     fig.enable(id);    
-})
+});
+
+// уровень пройден
 board.on('complete', ()=>{
    
     setTimeout(()=>{
           board.reset();
           board.color = 'lightgreen';
           board.update();
-    },500)
+          setTimeout(()=>{
+                levelsControl.disable();
+                levelsControl.open();
+          }, 500)
+    },500);
    
 })
 
