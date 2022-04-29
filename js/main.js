@@ -28,6 +28,9 @@ fig.onSelect((id, r, fH, fV)=>{
 
 
 const board = new Board(canvas, ctx);
+const levelsControl = new LevelsControl(board, fig);
+levelsControl.setLevel(0)
+
 board.update();
 window.board = board
 
@@ -35,11 +38,13 @@ board.on('outside', id=>{
     fig.enable(id);    
 })
 board.on('complete', ()=>{
-    /*
+   
     setTimeout(()=>{
-      alert('Уровень пройден')
+          board.reset();
+          board.color = 'lightgreen';
+          board.update();
     },500)
-    */
+   
 })
 
 
@@ -86,7 +91,7 @@ board.on('click', (cell, x, y)=>{
 })
 
 
-const levelsControl = new LevelsControl(board, fig);
+
 
 
 

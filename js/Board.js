@@ -62,6 +62,7 @@ class Board {
   }
   reset (){
     this.figures = [];
+    this.color = 'gray';
     this.update();
   }
   update (){
